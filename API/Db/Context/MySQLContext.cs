@@ -10,6 +10,10 @@ namespace API.Db.Context
         public DbSet<UserModel> Users { get; set; }
         public DbSet<RoleModel> Roles { get; set; }
         public DbSet<UserRoleModel> UserRoles { get; set; }
+
+        public DbSet<ClientModel> Client { get; set; }
+        public DbSet<EnderecoModel> Endereco { get; set; }
+        public DbSet<ServiceOrderModel> ServiceOrders { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -26,6 +30,22 @@ namespace API.Db.Context
                 .HasOne(ur => ur.Role)
                 .WithMany(r => r.UserRoles)
                 .HasForeignKey(ur => ur.RoleId);
+
+            modelBuilder.Entity<EnderecoModel>()
+                .HasOne(e => e.Client)
+                .WithMany(c => c.Enderecos)
+                .HasForeignKey(e => e.ClientId);
+
+            modelBuilder.Entity<ServiceOrderModel>()
+                .HasOne(e => e.Client)
+                .WithMany(c => c.ServiceOrders)
+                .HasForeignKey(e => e.ClientId);
+
+            modelBuilder.Entity<ServiceOrderModel>()
+                .HasOne(e => e.Equipment)
+                .WithMany(c => c.ServiceOrders)
+                .HasForeignKey(e => e.EquipmentId);
+
             // Adicionar dados iniciais
             modelBuilder.Entity<RoleModel>().HasData(
                 new RoleModel { Id = 1, RoleName = "Admin" },

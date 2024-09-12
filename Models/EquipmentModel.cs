@@ -1,0 +1,19 @@
+﻿using Models.Base;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Models
+{
+    [Table("equipments")]
+    public class EquipmentModel : BaseEntity
+    {
+        [Column("brand")]
+        public string brand { get; set; } = string.Empty;
+        [Column("model")]
+        public string  ModelEquipment { get; set; } = string.Empty;
+        [Column("serial_number")]
+        public string SerialNumber { get; set; } = string.Empty;
+        [Column("problem_description")]
+        public string ProblemDescription {  get; set; } = string.Empty;
+        public List<ServiceOrderModel> ServiceOrders { get; set; } = new List<ServiceOrderModel>();
+    }
+}
