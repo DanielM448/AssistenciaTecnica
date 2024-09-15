@@ -7,7 +7,7 @@ namespace Models
     public class EquipmentModel : BaseEntity
     {
         [Column("brand")]
-        public string brand { get; set; } = string.Empty;
+        public string Brand { get; set; } = string.Empty;
         [Column("model")]
         public string  ModelEquipment { get; set; } = string.Empty;
         [Column("serial_number")]

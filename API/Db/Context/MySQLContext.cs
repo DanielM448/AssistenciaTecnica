@@ -13,7 +13,9 @@ namespace API.Db.Context
 
         public DbSet<ClientModel> Client { get; set; }
         public DbSet<EnderecoModel> Endereco { get; set; }
+        public DbSet<PartModel> Parts { get; set; }
         public DbSet<ServiceOrderModel> ServiceOrders { get; set; }
+        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -45,6 +47,11 @@ namespace API.Db.Context
                 .HasOne(e => e.Equipment)
                 .WithMany(c => c.ServiceOrders)
                 .HasForeignKey(e => e.EquipmentId);
+
+            modelBuilder.Entity<PartModel>()
+                .HasOne(p => p.Order)
+                .WithMany(o => o.Parts)
+                .HasForeignKey(p => p.OsId);
 
             // Adicionar dados iniciais
             modelBuilder.Entity<RoleModel>().HasData(

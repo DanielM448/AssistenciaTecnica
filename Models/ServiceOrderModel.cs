@@ -17,5 +17,6 @@ namespace Models
         public ServiceOrderStatus Status { get; set; }
         [Column("created")]
         public DateTime Created { get; set; } = DateTime.Now;
+        public List<PartModel> Parts { get; set; } = new List<PartModel>();
     }
 }
