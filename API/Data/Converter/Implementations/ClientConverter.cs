@@ -6,13 +6,14 @@ namespace API.Data.Converter.Implementations
 {
     public class ClientConverter : IParser<ClientVO, ClientModel>, IParser<ClientModel, ClientVO>
     {
-        private readonly EnderecoConverter _enderecoConverter;
+        private readonly AddressConverter _enderecoConverter;
         private readonly ServiceOrderConverter _serviceOrderConverter;
-        public ClientConverter()
+        public ClientConverter(AddressConverter enderecoConverter, ServiceOrderConverter serviceOrderConverter)
         {
-            _enderecoConverter = new EnderecoConverter();
-            _serviceOrderConverter = new ServiceOrderConverter();
+            _enderecoConverter = enderecoConverter;
+            _serviceOrderConverter = serviceOrderConverter;
         }
+
         public ClientModel Parse(ClientVO origin)
         {
             if (origin == null) return null;
@@ -23,7 +24,7 @@ namespace API.Data.Converter.Implementations
                 CellNumber = origin.CellNumber,
                 CellNumberAlternative = origin.CellNumberAlternative,
                 Email = origin.Email,
-                Enderecos = _enderecoConverter.Parse(origin.Enderecos),
+                Addresses = _enderecoConverter.Parse(origin.Addresses),
                 ServiceOrders = _serviceOrderConverter.Parse(origin.ServiceOrders),
             };
         }
@@ -37,7 +38,7 @@ namespace API.Data.Converter.Implementations
                 CellNumber = origin.CellNumber,
                 CellNumberAlternative = origin.CellNumberAlternative,
                 Email = origin.Email,
-                Enderecos = _enderecoConverter.Parse(origin.Enderecos),
+                Addresses = _enderecoConverter.Parse(origin.Addresses),
                 ServiceOrders = _serviceOrderConverter.Parse(origin.ServiceOrders),
             };
         }

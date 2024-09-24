@@ -4,17 +4,12 @@ using Models;
 
 namespace API.Data.Converter.Implementations
 {
-    public class EnderecoConverter : IParser<EnderecoVO, EnderecoModel>, IParser<EnderecoModel, EnderecoVO>
+    public class AddressConverter : IParser<AddressVO, AddressModel>, IParser<AddressModel, AddressVO>
     {
-        private readonly ClientConverter _clientConverter;
-        public EnderecoConverter()
-        {
-            _clientConverter = new ClientConverter();
-        }
-        public EnderecoModel Parse(EnderecoVO origin)
+        public AddressModel Parse(AddressVO origin)
         {
             if (origin == null) return null;
-            return new EnderecoModel
+            return new AddressModel
             {
                 Id = origin.Id,
                 Street = origin.Street,
@@ -24,14 +19,12 @@ namespace API.Data.Converter.Implementations
                 City = origin.City,               
                 State = origin.State,
                 ZipCode = origin.ZipCode,
-                ClientId = origin.ClientId,
-                Client = _clientConverter.Parse(origin.Client),
             };
         }
-        public EnderecoVO Parse(EnderecoModel origin)
+        public AddressVO Parse(AddressModel origin)
         {
             if (origin == null) return null;
-            return new EnderecoVO
+            return new AddressVO
             {
                 Id = origin.Id,
                 Street = origin.Street,
@@ -41,16 +34,14 @@ namespace API.Data.Converter.Implementations
                 City = origin.City,
                 State = origin.State,
                 ZipCode = origin.ZipCode,
-                ClientId = origin.ClientId,
-                Client = _clientConverter.Parse(origin.Client),
             };
         }
-        public List<EnderecoModel> Parse(List<EnderecoVO> origin)
+        public List<AddressModel> Parse(List<AddressVO> origin)
         {
             if (origin == null) return null;
             return origin.Select(item => Parse(item)).ToList();
         }       
-        public List<EnderecoVO> Parse(List<EnderecoModel> origin)
+        public List<AddressVO> Parse(List<AddressModel> origin)
         {
             if (origin == null) return null;
             return origin.Select(item => Parse(item)).ToList();

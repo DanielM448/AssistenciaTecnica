@@ -14,7 +14,7 @@ namespace Models
         public string CellNumberAlternative { get; set; } = string.Empty;
         [Column("email")]
         public string Email { get; set; } = string.Empty;
-        public List<EnderecoModel> Enderecos { get; set; } = new List<EnderecoModel>();
+        public List<AddressModel> Addresses { get; set; } = new List<AddressModel>();
         public List<ServiceOrderModel> ServiceOrders { get; set; } = new List<ServiceOrderModel>();
     }
 }

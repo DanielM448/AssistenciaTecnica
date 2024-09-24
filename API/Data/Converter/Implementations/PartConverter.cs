@@ -6,11 +6,6 @@ namespace API.Data.Converter.Implementations
 {
     public class PartConverter : IParser<PartVO, PartModel>, IParser<PartModel, PartVO>
     {
-        private readonly ServiceOrderConverter _serviceOrderConverter;
-        public PartConverter()
-        {
-            _serviceOrderConverter = new ServiceOrderConverter();
-        }
         public PartModel Parse(PartVO origin)
         {
             if (origin == null) return null;
@@ -21,7 +16,6 @@ namespace API.Data.Converter.Implementations
                 Quantity = origin.Quantity,
                 Price = origin.Price,
                 OsId = origin.OsId,
-                Order = _serviceOrderConverter.Parse(origin.Order),
             };
         }
         public PartVO Parse(PartModel origin)
@@ -34,7 +28,6 @@ namespace API.Data.Converter.Implementations
                 Quantity = origin.Quantity,
                 Price = origin.Price,
                 OsId = origin.OsId,
-                Order = _serviceOrderConverter.Parse(origin.Order),
             };
         }
 

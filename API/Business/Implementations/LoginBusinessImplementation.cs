@@ -2,6 +2,7 @@
 using API.Data.VO;
 using API.Repositories.User;
 using API.Services;
+using Models;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
@@ -71,9 +72,8 @@ namespace API.Business.Implementations
 
             var claims = principal.Claims.ToList();
 
-            var testeRoels = user.UserRoles.Select(ur => new Claim(ClaimTypes.Role, ur.Role.RoleName));
-            // Adicione as permissões como claims
-            claims.AddRange(testeRoels);
+            var userRoles = user.UserRoles.Select(ur => new Claim(ClaimTypes.Role, ur.Role.RoleName));
+            claims.AddRange(userRoles);
 
             accessToken = _tokenService.GenerateAccessToken(claims);
             refreshToken = _tokenService.GenerateRefreshToken();
@@ -96,6 +96,47 @@ namespace API.Business.Implementations
         public bool RevokeToken(string userName)
         {
             return _repository.RevokeToken(userName);
+        }
+
+        public TokenVO GenerateTokenForExternalLogin(string email)
+        {
+            var user = _repository.GetByEmail(email);
+            if (user == null)
+            {
+                // Cria um novo usuário se não existir
+                user = new UserModel
+                {
+                    Name = email,
+                    Email = email
+                };
+                _repository.Add(user);
+            }
+
+            var claims = new List<Claim>
+            {
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString("N")),
+                new Claim(JwtRegisteredClaimNames.UniqueName, user.Email)
+            };
+            claims.AddRange(user.UserRoles.Select(ur => new Claim(ClaimTypes.Role, ur.Role.RoleName)));
+
+            var accessToken = _tokenService.GenerateAccessToken(claims);
+            var refreshToken = _tokenService.GenerateRefreshToken();
+
+            user.RefreshToken = refreshToken;
+            user.RefreshTokenExpiryTime = DateTime.Now.AddDays(_configuration.DaysToExpiry);
+
+            _repository.RefreshUserInfo(user);
+
+            DateTime createDate = DateTime.Now;
+            DateTime expirationDate = createDate.AddMinutes(_configuration.Minutes);
+
+            return new TokenVO(
+                true,
+                createDate.ToString(DATE_FORMAT),
+                expirationDate.ToString(DATE_FORMAT),
+                accessToken,
+                refreshToken
+            );
         }
     }
 }

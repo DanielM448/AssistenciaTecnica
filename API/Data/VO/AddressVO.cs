@@ -1,6 +1,6 @@
 ﻿namespace API.Data.VO
 {
-    public class EnderecoVO
+    public class AddressVO
     {
         public int Id { get; set; }
         public string Street { get; set; } = string.Empty;
@@ -10,7 +10,5 @@
         public string City { get; set; } = string.Empty;
         public string State { get; set; } = string.Empty;
         public string ZipCode { get; set; } = string.Empty;
-        public int ClientId { get; set; }
-        public ClientVO Client { get; set; }
     }
 }

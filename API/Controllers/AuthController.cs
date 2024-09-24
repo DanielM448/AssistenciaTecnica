@@ -2,8 +2,11 @@
 using API.Data.VO;
 using API.Libraries.Validations;
 using Asp.Versioning;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.MicrosoftAccount;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace API.Controllers
 {
@@ -52,6 +55,41 @@ namespace API.Controllers
             var result = _loginBusiness.RevokeToken(username);
             if (!result) return BadRequest("Ivalid client request");
             return NoContent();
+        }
+
+        [HttpGet]
+        [Route("externallogin")]
+        public IActionResult ExternalLogin(string provider, string returnUrl = null)
+        {
+            var redirectUrl = Url.Action(nameof(ExternalLoginCallback), "Auth", new { ReturnUrl = returnUrl });
+            var properties = new AuthenticationProperties { RedirectUri = redirectUrl };
+            return Challenge(properties, provider);
+        }
+
+        [HttpGet]
+        [Route("externallogincallback")]
+        public async Task<IActionResult> ExternalLoginCallback(string returnUrl = null, string remoteError = null)
+        {
+            if (remoteError != null)
+            {
+                return BadRequest($"Error from external provider: {remoteError}");
+            }
+
+            var info = await HttpContext.AuthenticateAsync(MicrosoftAccountDefaults.AuthenticationScheme);
+            if (info?.Principal == null)
+            {
+                return BadRequest("Error loading external login information.");
+            }
+
+            // Aqui você pode obter as informações do usuário e criar um token JWT
+            var email = info.Principal.FindFirstValue(ClaimTypes.Email);
+            var token = _loginBusiness.GenerateTokenForExternalLogin(email);
+            if (token == null)
+            {
+                return Unauthorized("Invalid external login.");
+            }
+
+            return Ok(token);
         }
     }
 }

@@ -13,9 +13,11 @@ namespace API.Controllers
     [Route("api/[controller]/v{version:apiVersion}")]
     public class RoleController : ControllerBase
     {
+        private readonly ILogger<RoleController> _logger;
         private IRoleBusiness _roleBusiness;
-        public RoleController(IRoleBusiness roleBusiness)
+        public RoleController(ILogger<RoleController> logger, IRoleBusiness roleBusiness)
         {
+            _logger = logger;
             _roleBusiness = roleBusiness;
         }
         

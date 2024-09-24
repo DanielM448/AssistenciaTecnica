@@ -7,5 +7,6 @@ namespace API.Business
         TokenVO ValidateCredentials(LoginVO user);
         TokenVO ValidateCredentials(TokenVO token);
         bool RevokeToken(string userName);
+        TokenVO GenerateTokenForExternalLogin(string email);
     }
 }

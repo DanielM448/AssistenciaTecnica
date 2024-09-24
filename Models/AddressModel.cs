@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Models
 {
     [Table("enderecos")]
-    public class EnderecoModel : BaseEntity
+    public class AddressModel : BaseEntity
     {        
         [Column("Street")]
         public string Street { get; set; } = string.Empty;

@@ -15,6 +15,8 @@ using Microsoft.AspNetCore.Rewrite;
 using API.Business;
 using API.Business.Implementations;
 using API.Repositories.Generic;
+using API.Repositories.Client;
+using API.Data.Converter.Implementations;
 
 internal class Program
 {
@@ -36,6 +38,7 @@ internal class Program
         {
             options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
             options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            options.DefaultSignInScheme = "Cookies";
         })
             .AddJwtBearer(options =>
             {
@@ -49,7 +52,13 @@ internal class Program
                     ValidAudience = tokenConfigurations.Audience,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenConfigurations.Secret))
                 };
-            });
+            })
+            .AddMicrosoftAccount(microsoftOptions =>
+            {
+                microsoftOptions.ClientId = builder.Configuration["Authentication:Microsoft:ClientId"];
+                microsoftOptions.ClientSecret = builder.Configuration["Authentication:Microsoft:ClientSecret"];
+            })
+            .AddCookie("Cookies");
 
         builder.Services.AddAuthorization(auth =>
         {
@@ -108,9 +117,19 @@ internal class Program
         builder.Services.AddScoped<ILoginBusiness, LoginBusinessImplementation>();
         builder.Services.AddScoped<IUserBusiness, UserBusinessImplementation>();
         builder.Services.AddScoped<IRoleBusiness, RoleBusinessImplementations>();
+        builder.Services.AddScoped<IClientBusiness, ClientBusinessImplementation>();
+        builder.Services.AddScoped<IEquipmentBusiness, EquipmentBusinessImplementation>();
+
+        builder.Services.AddScoped<ClientConverter>();
+        builder.Services.AddScoped<AddressConverter>();
+        builder.Services.AddScoped<PartConverter>();
+        builder.Services.AddScoped<ServiceOrderConverter>();
+        builder.Services.AddScoped<EquipmentConverter>();
+
 
         builder.Services.AddTransient<ITokenService, TokenService>();
         builder.Services.AddScoped<IUserRepository, UserRepository>();
+        builder.Services.AddScoped<IClientRepository, ClientRepository>();
 
         builder.Services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
 
@@ -127,6 +146,7 @@ internal class Program
 
         app.UseHttpsRedirection();
 
+        app.UseAuthentication();
         app.UseAuthorization();
         app.UseCors();
 

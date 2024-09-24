@@ -12,7 +12,7 @@ namespace API.Db.Context
         public DbSet<UserRoleModel> UserRoles { get; set; }
 
         public DbSet<ClientModel> Client { get; set; }
-        public DbSet<EnderecoModel> Endereco { get; set; }
+        public DbSet<AddressModel> Endereco { get; set; }
         public DbSet<PartModel> Parts { get; set; }
         public DbSet<ServiceOrderModel> ServiceOrders { get; set; }
         
@@ -33,9 +33,9 @@ namespace API.Db.Context
                 .WithMany(r => r.UserRoles)
                 .HasForeignKey(ur => ur.RoleId);
 
-            modelBuilder.Entity<EnderecoModel>()
+            modelBuilder.Entity<AddressModel>()
                 .HasOne(e => e.Client)
-                .WithMany(c => c.Enderecos)
+                .WithMany(c => c.Addresses)
                 .HasForeignKey(e => e.ClientId);
 
             modelBuilder.Entity<ServiceOrderModel>()
