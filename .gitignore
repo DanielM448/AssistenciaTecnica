@@ -402,3 +402,6 @@ FodyWeavers.xsd
 
 TODO.TODO
 appsettings.Development.json
+
+# Docker
+docker-compose.yml
