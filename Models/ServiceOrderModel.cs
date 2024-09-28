@@ -13,6 +13,8 @@ namespace Models
         [Column("equipment_id")]
         public int EquipmentId {  get; set; }
         public EquipmentModel Equipment { get; set; }
+        [Column("problem_description")]
+        public string ProblemDescription { get; set; } = string.Empty;
         [Column("status")]
         public ServiceOrderStatus Status { get; set; }
         [Column("created")]

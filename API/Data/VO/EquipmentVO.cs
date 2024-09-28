@@ -6,6 +6,5 @@
         public string Brand { get; set; } = string.Empty;
         public string ModelEquipment { get; set; } = string.Empty;
         public string SerialNumber { get; set; } = string.Empty;
-        public string ProblemDescription { get; set; } = string.Empty;
     }
 }

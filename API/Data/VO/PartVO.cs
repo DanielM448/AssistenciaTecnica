@@ -7,6 +7,5 @@
         public int Quantity { get; set; }
         public double Price { get; set; }
         public int OsId { get; set; }
-        public ServiceOrderVO Order { get; set; }
     }
 }

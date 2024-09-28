@@ -14,6 +14,7 @@ namespace API.Db.Context
         public DbSet<ClientModel> Client { get; set; }
         public DbSet<AddressModel> Endereco { get; set; }
         public DbSet<PartModel> Parts { get; set; }
+        public DbSet<EquipmentModel> Equipments { get; set; }
         public DbSet<ServiceOrderModel> ServiceOrders { get; set; }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)

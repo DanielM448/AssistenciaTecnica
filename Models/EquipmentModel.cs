@@ -11,9 +11,7 @@ namespace Models
         [Column("model")]
         public string  ModelEquipment { get; set; } = string.Empty;
         [Column("serial_number")]
-        public string SerialNumber { get; set; } = string.Empty;
-        [Column("problem_description")]
-        public string ProblemDescription {  get; set; } = string.Empty;
+        public string SerialNumber { get; set; } = string.Empty;        
         public List<ServiceOrderModel> ServiceOrders { get; set; } = new List<ServiceOrderModel>();
     }
 }

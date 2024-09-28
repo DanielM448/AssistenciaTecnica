@@ -15,7 +15,6 @@ namespace API.Data.Converter.Implementations
                 Brand = origin.Brand,
                 ModelEquipment = origin.ModelEquipment,
                 SerialNumber = origin.SerialNumber,
-                ProblemDescription = origin.ProblemDescription,
             };
         }
         public EquipmentVO Parse(EquipmentModel origin)
@@ -27,7 +26,6 @@ namespace API.Data.Converter.Implementations
                 Brand = origin.Brand,
                 ModelEquipment = origin.ModelEquipment,
                 SerialNumber = origin.SerialNumber,
-                ProblemDescription = origin.ProblemDescription,
             };
         }
         public List<EquipmentModel> Parse(List<EquipmentVO> origin)

@@ -17,6 +17,7 @@ using API.Business.Implementations;
 using API.Repositories.Generic;
 using API.Repositories.Client;
 using API.Data.Converter.Implementations;
+using API.Repositories.ServiceOrder;
 
 internal class Program
 {
@@ -119,6 +120,7 @@ internal class Program
         builder.Services.AddScoped<IRoleBusiness, RoleBusinessImplementations>();
         builder.Services.AddScoped<IClientBusiness, ClientBusinessImplementation>();
         builder.Services.AddScoped<IEquipmentBusiness, EquipmentBusinessImplementation>();
+        builder.Services.AddScoped<IServiceOrderBusiness, ServiceOrderBusinessImplementation>();
 
         builder.Services.AddScoped<ClientConverter>();
         builder.Services.AddScoped<AddressConverter>();
@@ -130,6 +132,7 @@ internal class Program
         builder.Services.AddTransient<ITokenService, TokenService>();
         builder.Services.AddScoped<IUserRepository, UserRepository>();
         builder.Services.AddScoped<IClientRepository, ClientRepository>();
+        builder.Services.AddScoped<IServiceOrderRepository, ServiceOrderRepository>();
 
         builder.Services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
 

@@ -11,10 +11,12 @@ namespace API.Repositories.User
     public class UserRepository : IUserRepository
     {
         private readonly MySQLContext _context;
+        
 
         public UserRepository(MySQLContext context)
         {
             _context = context;
+            
         }
         public UserModel? ValidateCredentials(string email)
         {

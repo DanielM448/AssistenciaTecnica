@@ -15,8 +15,5 @@ namespace API.Repositories.User
         public UserModel UserRoleRemove(string email, RoleModel role);
         bool RevokeToken(string email);
         List<UserModel> GetAll();
-
-        // TODO - Login Google
-        // TODO - Login Microsoft
     }
 }
